@@ -3,9 +3,11 @@
     namespace Database\Seeders;
     
     use App\Models\Post;
+    use App\Models\User;
+    use App\Traits\TruncateTable;
+    use App\Helpers\FactoryHelper;
     use Illuminate\Database\Seeder;
-    use App\Http\Traits\TruncateTable;
-    use App\Http\Traits\DisableForeignKeys;
+    use App\Traits\DisableForeignKeys;
     
     class PostSeeder extends Seeder
     {
@@ -21,7 +23,15 @@
         {
             $this->disableForeignKeys();
             $this->truncateTable('posts');
-            Post::factory(3)->untitled()->create();
+            
+            $posts = Post::factory(3)
+                //                ->has(Comment::factory(3), 'comments')
+                ->untitled()->create();
+            
+            $posts->each(static function (Post $post) {
+                $post->users()->sync(FactoryHelper::getRandomModelId(User::class));
+            });
+            
             $this->enableForeignKeys();
         }
     }

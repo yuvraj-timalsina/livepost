@@ -1,25 +1,29 @@
 <?php
-
-namespace Database\Factories;
-
-use Illuminate\Database\Eloquent\Factories\Factory;
-
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
- */
-class CommentFactory extends Factory
-{
+    
+    namespace Database\Factories;
+    
+    use App\Models\Post;
+    use App\Models\User;
+    use App\Models\Comment;
+    use App\Helpers\FactoryHelper;
+    use Illuminate\Database\Eloquent\Factories\Factory;
+    
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * @extends Factory<Comment>
      */
-    public function definition(): array
+    class CommentFactory extends Factory
     {
-        return [
-            'body' => $this->faker->realText,
-            'user_id' => 1,
-            'post_id' => 1,
-        ];
+        /**
+         * Define the model's default state.
+         *
+         * @return array<string, mixed>
+         */
+        public function definition(): array
+        {
+            return [
+                'body' => [],
+                'user_id' => FactoryHelper::getRandomModelId(User::class),
+                'post_id' => FactoryHelper::getRandomModelId(Post::class),
+            ];
+        }
     }
-}

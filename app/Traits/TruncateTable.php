@@ -1,5 +1,5 @@
 <?php
-    namespace App\Http\Traits;
+    namespace App\Traits;
     use Illuminate\Support\Facades\DB;
 
     trait TruncateTable

@@ -3,10 +3,10 @@
     namespace Database\Seeders;
     
     use App\Models\User;
+    use App\Traits\TruncateTable;
     use Illuminate\Database\Seeder;
-    use App\Http\Traits\TruncateTable;
-    use App\Http\Traits\DisableForeignKeys;
-    
+    use App\Traits\DisableForeignKeys;
+
     class UserSeeder extends Seeder
     {
         use TruncateTable;

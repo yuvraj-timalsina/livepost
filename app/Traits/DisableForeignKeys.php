@@ -1,9 +1,9 @@
 <?php
     
-    namespace App\Http\Traits;
+    namespace App\Traits;
     
     use Illuminate\Support\Facades\DB;
-    
+
     trait DisableForeignKeys
     {
         protected function disableForeignKeys(): void
