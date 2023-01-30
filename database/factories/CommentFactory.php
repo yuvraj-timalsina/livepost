@@ -5,9 +5,9 @@
     use App\Models\Post;
     use App\Models\User;
     use App\Models\Comment;
-    use App\Helpers\FactoryHelper;
+    use App\Helpers\Factory\FactoryHelper;
     use Illuminate\Database\Eloquent\Factories\Factory;
-    
+
     /**
      * @extends Factory<Comment>
      */

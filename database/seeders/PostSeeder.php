@@ -5,10 +5,10 @@
     use App\Models\Post;
     use App\Models\User;
     use App\Traits\TruncateTable;
-    use App\Helpers\FactoryHelper;
     use Illuminate\Database\Seeder;
     use App\Traits\DisableForeignKeys;
-    
+    use App\Helpers\Factory\FactoryHelper;
+
     class PostSeeder extends Seeder
     {
         use TruncateTable;

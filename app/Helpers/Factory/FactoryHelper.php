@@ -1,16 +1,16 @@
 <?php
     
-    namespace App\Helpers;
+    namespace App\Helpers\Factory;
     
     use Illuminate\Database\Eloquent\Factories\HasFactory;
-    
+
     class FactoryHelper
     {
         /**
          * Get random model ID
          *
-         * @param string |HasFactory $model
-         *
+         * @param string $model
+         * @return mixed
          */
         public static function getRandomModelId(string $model): mixed
         {
