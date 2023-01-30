@@ -1,5 +1,4 @@
 <?php
-    
     namespace App\Models;
     
     use Illuminate\Database\Eloquent\Model;
@@ -12,25 +11,24 @@
     {
         use HasFactory;
         
+        protected $fillable = [
+            'title',
+            'body',
+        ];
+        
         protected $casts = [
             'body' => 'array',
         ];
         
-        
         public function title(): Attribute
         {
-            return new Attribute(
-                get: fn($value) => strtoupper($value),
-                set: fn($value) => strtolower($value),
-            );
+            return new Attribute(get: fn($value) => strtoupper($value), set: fn($value) => strtoupper($value),);
         }
-        
         
         public function comments(): HasMany
         {
             return $this->hasMany(Comment::class, 'post_id');
         }
-        
         
         public function users(): BelongsToMany
         {

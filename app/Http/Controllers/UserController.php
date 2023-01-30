@@ -30,7 +30,7 @@
          */
         public function store(Request $request): Response
         {
-            return new Response('User created', 201);
+            return new Response('User created');
         }
         
         
@@ -57,7 +57,7 @@
          */
         public function update(Request $request, User $user): Response
         {
-            return new Response('User updated', 201);
+            return new Response('User updated');
         }
         
         
@@ -69,6 +69,6 @@
          */
         public function destroy(User $user): Response
         {
-            return new Response('User deleted', 201);
+            return new Response('User deleted');
         }
     }
