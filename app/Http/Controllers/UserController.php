@@ -17,7 +17,7 @@
         public function index(): Response
         {
             return response([
-                'data' => 'John Doe',
+                'data' => User::all(),
             ]);
         }
         
@@ -59,8 +59,8 @@
         {
             return new Response('User updated', 201);
         }
-    
-    
+        
+        
         /**
          * Remove the specified resource from storage.
          *
