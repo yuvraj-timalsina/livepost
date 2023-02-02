@@ -2,13 +2,12 @@
 
     namespace App\Http\Controllers;
 
-    use App\Http\Requests\UpdatePostRequest;
     use App\Http\Resources\PostResource;
     use App\Models\Post;
+    use App\Repositories\PostRepository;
     use Illuminate\Http\Request;
     use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
     use Illuminate\Http\Response;
-    use Illuminate\Support\Facades\DB;
 
     class PostController extends Controller
     {
@@ -20,17 +19,9 @@
             return PostResource::collection($posts);
         }
 
-        public function store(Request $request) : Response
+        public function store(Request $request, PostRepository $repository) : PostResource
         {
-            $created = DB::transaction(static function () use ($request) {
-                $created = Post::query()->create([
-                    'title' => $request->title,
-                    'body' => $request->body,
-                ]);
-                $created->users()->sync($request->user_ids);
-
-                return $created;
-            });
+            $created = $repository->create($request->only(['title', 'body', 'user_ids']));
 
             return new PostResource($created);
         }
@@ -40,30 +31,19 @@
             return new PostResource($post);
         }
 
-        public function update(UpdatePostRequest $request, Post $post) : Response
+        public function update(Request $request, Post $post, PostRepository $repository) : PostResource
         {
-            //            $post -> update($request -> only(['title', 'body']));
-            $updated = $post->update([
-                'title' => $request->title ?? $post->title,
-                'body' => $request->body ?? $post->body,
-            ]);
-            if (!$updated) {
-                return response([
-                    'error' => 'Post not updated!',
-                ], 400);
-            }
+            $post = $repository->update($post, $request->only([
+                'title',
+                'body',
+                'user_ids']));
 
             return new PostResource($post);
         }
 
-        public function destroy(Post $post) : ?Response
+        public function destroy(Post $post, PostRepository $repository) : Response
         {
-            $deleted = $post->forceDelete();
-            if (!$deleted) {
-                return response([
-                    'error' => 'Post not deleted!',
-                ], 400);
-            }
+            $repository->forceDelete($post);
 
             return response([
                 'data' => 'Post deleted!',
