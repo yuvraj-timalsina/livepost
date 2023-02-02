@@ -3,6 +3,7 @@
     namespace App\Http\Controllers;
 
     use App\Http\Requests\UpdatePostRequest;
+    use App\Http\Resources\PostResource;
     use App\Models\Post;
     use Illuminate\Http\Request;
     use Illuminate\Http\Response;
@@ -10,13 +11,11 @@
 
     class PostController extends Controller
     {
-        public function index() : Response
+        public function index()
         {
             $posts = Post::query()->get();
 
-            return response([
-                'posts' => $posts,
-            ]);
+            return PostResource::collection($posts);
         }
 
         public function store(Request $request) : Response
@@ -31,16 +30,12 @@
                 return $created;
             });
 
-            return response([
-                'data' => $created,
-            ]);
+            return new PostResource($created);
         }
 
-        public function show(Post $post) : ?Response
+        public function show(Post $post) : PostResource
         {
-            return response([
-                'post' => $post,
-            ]);
+            return new PostResource($post);
         }
 
         public function update(UpdatePostRequest $request, Post $post) : Response
@@ -56,9 +51,7 @@
                 ], 400);
             }
 
-            return response([
-                'post' => $post,
-            ]);
+            return new PostResource($post);
         }
 
         public function destroy(Post $post) : ?Response
