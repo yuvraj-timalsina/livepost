@@ -2,6 +2,7 @@
 
     namespace App\Repositories;
 
+    use App\Events\Models\Post\PostCreated;
     use App\Exceptions\GeneralJsonException;
     use App\Models\Post;
     use Illuminate\Support\Facades\DB;
@@ -21,6 +22,7 @@
                 if ($userIds = data_get($attributes, 'user_ids')) {
                     $created->users()->sync($userIds);
                 }
+                event(new PostCreated($created));
 
                 return $created;
             });
@@ -39,6 +41,7 @@
                 if ($userIds = data_get($attributes, 'user_ids')) {
                     $post->users()->sync($userIds);
                 }
+                event(new PostUpdated($post));
 
                 return $post;
             });
@@ -50,6 +53,7 @@
                 $deleted = $post->forceDelete();
 
                 throw_if(!$deleted, new GeneralJsonException('Failed to delete post'));
+                event(new PostDeleted($post));
 
                 return $deleted;
             });

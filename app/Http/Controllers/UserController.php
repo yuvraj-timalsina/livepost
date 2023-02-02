@@ -13,7 +13,7 @@
     {
         public function index(Request $request)
         {
-            event(new UserCreated(User::factory()->make()));
+            event(new UserCreated(uUser::factory()->make()));
             $users = User::query()->paginate($request->page_size ?? 20);
 
             return UserResource::collection($users);
