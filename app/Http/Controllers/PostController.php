@@ -6,14 +6,16 @@
     use App\Http\Resources\PostResource;
     use App\Models\Post;
     use Illuminate\Http\Request;
+    use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
     use Illuminate\Http\Response;
     use Illuminate\Support\Facades\DB;
 
     class PostController extends Controller
     {
-        public function index()
+        public function index(Request $request) : AnonymousResourceCollection
         {
-            $posts = Post::query()->get();
+            $pageSize = $request->page_size ?? 20;
+            $posts = Post::query()->paginate($pageSize);
 
             return PostResource::collection($posts);
         }
