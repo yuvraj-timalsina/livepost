@@ -15,23 +15,23 @@
             'title',
             'body',
         ];
-        
         protected $casts = [
             'body' => 'array',
         ];
+       
         
-        public function title(): Attribute
+        public function title() : Attribute
         {
-            return new Attribute(get: fn($value) => strtoupper($value), set: fn($value) => strtoupper($value),);
+            return new Attribute(get : fn($value) => strtoupper($value));
         }
         
-        public function comments(): HasMany
+        public function comments() : HasMany
         {
-            return $this->hasMany(Comment::class, 'post_id');
+            return $this -> hasMany(Comment::class, 'post_id');
         }
         
-        public function users(): BelongsToMany
+        public function users() : BelongsToMany
         {
-            return $this->belongsToMany(User::class, 'post_user', 'post_id', 'user_id');
+            return $this -> belongsToMany(User::class, 'post_user', 'post_id', 'user_id');
         }
     }
