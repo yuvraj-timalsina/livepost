@@ -1,65 +1,61 @@
 <?php
 
-namespace App\Http\Controllers;
+    namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCommentRequest;
-use App\Http\Requests\UpdateCommentRequest;
-use App\Models\Comment;
+    use App\Http\Requests\StoreCommentRequest;
+    use App\Http\Requests\UpdateCommentRequest;
+    use App\Http\Resources\CommentResource;
+    use App\Models\Comment;
 
-class CommentController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    class CommentController extends Controller
     {
-        //
-    }
+        public function index()
+        {
+            $pageSize = request()->page_size ?? 20;
+            $comments = Comment::paginate($pageSize);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCommentRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreCommentRequest $request)
-    {
-        //
-    }
+            return CommentResource::collection($comments);
+        }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Comment $comment)
-    {
-        //
-    }
+        public function store(StoreCommentRequest $request)
+        {
+            $created = Comment::create([
+                'body' => $request->body,
+                'post_id' => $request->post_id,
+                'user_id' => $request->user_id,
+            ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateCommentRequest  $request
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateCommentRequest $request, Comment $comment)
-    {
-        //
-    }
+            return new CommentResource($created);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Comment  $comment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Comment $comment)
-    {
-        //
+        public function show(Comment $comment) : CommentResource
+        {
+            return new CommentResource($comment);
+        }
+
+        public function update(UpdateCommentRequest $request, Comment $comment)
+        {
+            $updated = $comment->update([
+                'body' => $request->body ?? $comment->body,
+            ]);
+            if (!$updated) {
+                return response([
+                    'error' => 'Comment not updated!',
+                ], 400);
+            }
+
+            return new CommentResource($comment);
+        }
+
+        public function destroy(Comment $comment)
+        {
+            $deleted = $comment->delete();
+            if (!$deleted) {
+                return response([
+                    'error' => 'Comment not deleted!',
+                ], 400);
+            }
+
+            return response(null, 204);
+        }
     }
-}
