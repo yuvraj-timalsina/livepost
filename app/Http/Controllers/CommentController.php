@@ -2,60 +2,56 @@
 
     namespace App\Http\Controllers;
 
-    use App\Http\Requests\StoreCommentRequest;
-    use App\Http\Requests\UpdateCommentRequest;
     use App\Http\Resources\CommentResource;
     use App\Models\Comment;
+    use App\Repositories\CommentRepository;
+    use Illuminate\Http\JsonResponse;
+    use Illuminate\Http\Request;
 
     class CommentController extends Controller
     {
-        public function index()
+        public function index(Request $request)
         {
-            $pageSize = request()->page_size ?? 20;
-            $comments = Comment::paginate($pageSize);
+            $comments = Comment::query()->paginate($request->page_size ?? 20);
 
             return CommentResource::collection($comments);
         }
 
-        public function store(StoreCommentRequest $request)
+        public function store(Request $request, CommentRepository $repository)
         {
-            $created = Comment::create([
-                'body' => $request->body,
-                'post_id' => $request->post_id,
-                'user_id' => $request->user_id,
-            ]);
+            $created = $repository->create($request->only([
+                'title',
+                'body',
+                'user_id',
+                'post_id',
+            ]));
 
             return new CommentResource($created);
         }
 
-        public function show(Comment $comment) : CommentResource
+        public function show(Comment $comment)
         {
             return new CommentResource($comment);
         }
 
-        public function update(UpdateCommentRequest $request, Comment $comment)
+        public function update(Request $request, Comment $comment, CommentRepository $repository)
         {
-            $updated = $comment->update([
-                'body' => $request->body ?? $comment->body,
+            $comment = $repository->update($comment, $request->only([
+                'title',
+                'body',
+                'user_id',
+                'post_id',
+            ]));
+
+            return new CommentResource($comment);
+        }
+
+        public function destroy(Comment $comment, CommentRepository $repository)
+        {
+            $deleted = $repository->forceDelete($comment);
+
+            return new JsonResponse([
+                'data' => 'success',
             ]);
-            if (!$updated) {
-                return response([
-                    'error' => 'Comment not updated!',
-                ], 400);
-            }
-
-            return new CommentResource($comment);
-        }
-
-        public function destroy(Comment $comment)
-        {
-            $deleted = $comment->delete();
-            if (!$deleted) {
-                return response([
-                    'error' => 'Comment not deleted!',
-                ], 400);
-            }
-
-            return response(null, 204);
         }
     }

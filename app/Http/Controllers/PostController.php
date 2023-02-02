@@ -5,13 +5,12 @@
     use App\Http\Resources\PostResource;
     use App\Models\Post;
     use App\Repositories\PostRepository;
+    use Illuminate\Http\JsonResponse;
     use Illuminate\Http\Request;
-    use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-    use Illuminate\Http\Response;
 
     class PostController extends Controller
     {
-        public function index(Request $request) : AnonymousResourceCollection
+        public function index(Request $request)
         {
             $pageSize = $request->page_size ?? 20;
             $posts = Post::query()->paginate($pageSize);
@@ -19,34 +18,39 @@
             return PostResource::collection($posts);
         }
 
-        public function store(Request $request, PostRepository $repository) : PostResource
+        public function store(Request $request, PostRepository $repository)
         {
-            $created = $repository->create($request->only(['title', 'body', 'user_ids']));
+            $created = $repository->create($request->only([
+                'title',
+                'body',
+                'user_ids'
+            ]));
 
             return new PostResource($created);
         }
 
-        public function show(Post $post) : PostResource
+        public function show(Post $post)
         {
             return new PostResource($post);
         }
 
-        public function update(Request $request, Post $post, PostRepository $repository) : PostResource
+        public function update(Request $request, Post $post, PostRepository $repository)
         {
             $post = $repository->update($post, $request->only([
                 'title',
                 'body',
-                'user_ids']));
+                'user_ids',
+            ]));
 
             return new PostResource($post);
         }
 
-        public function destroy(Post $post, PostRepository $repository) : Response
+        public function destroy(Post $post, PostRepository $repository)
         {
-            $repository->forceDelete($post);
+            $post = $repository->forceDelete($post);
 
-            return response([
-                'data' => 'Post deleted!',
+            return new JsonResponse([
+                'data' => 'success'
             ]);
         }
     }
