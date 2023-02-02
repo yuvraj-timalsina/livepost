@@ -35,7 +35,7 @@
                 ]);
 
                 throw_if(!$updated, new GeneralJsonException('Failed to update user'));
-                event(new UserUpdated($user);
+                event(new UserUpdated($user));
 
                 return $user;
             });
@@ -47,7 +47,7 @@
                 $deleted = $user->forceDelete();
 
                 throw_if(!$deleted, new GeneralJsonException('Failed to delete user'));
-                event(new UserDeleted($user);
+                event(new UserDeleted($user));
 
                 return $deleted;
             });
