@@ -17,6 +17,8 @@
                     'post_id' => data_get($attributes, 'post_id'),
                 ]);
 
+                throw_if(!$created, new GeneralJsonException('Failed to create comment'));
+
                 return $created;
             });
         }
@@ -30,21 +32,19 @@
                     'user_id' => data_get($attributes, 'user_id', $comment->user_id),
                     'post_id' => data_get($attributes, 'post_id', $comment->post_id),
                 ]);
-                if (!$updated) {
-                    throw new \Exception('Failed to update comment');
-                }
+
+                throw_if(!$updated, new GeneralJsonException('Failed to update comment'));
 
                 return $comment;
             });
         }
-        
+
         public function forceDelete($comment)
         {
             return DB::transaction(function () use ($comment) {
                 $deleted = $comment->forceDelete();
-                if (!$deleted) {
-                    throw new \Exception("cannot delete comment.");
-                }
+
+                throw_if(!$deleted, new GeneralJsonException('Failed to delete comment'));
 
                 return $deleted;
             });
