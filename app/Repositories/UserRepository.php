@@ -17,6 +17,7 @@
                 $created = User::query()->create([
                     'name' => data_get($attributes, 'name'),
                     'email' => data_get($attributes, 'email'),
+                    'password' => data_get($attributes, 'password'),
                 ]);
 
                 throw_if(!$created, new GeneralJsonException('Failed to create user'));

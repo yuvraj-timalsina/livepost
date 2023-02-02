@@ -2,6 +2,9 @@
 
     namespace App\Listeners;
 
+    use App\Mail\WelcomeMail;
+    use Illuminate\Support\Facades\Mail;
+
     class SendWelcomeEmail
     {
         /**
@@ -23,6 +26,6 @@
          */
         public function handle($event)
         {
-            dd("Welcome email sent");
+            Mail::to($event->user)->send(new WelcomeMail($event->user));
         }
     }

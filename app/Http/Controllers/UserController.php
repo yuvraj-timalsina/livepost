@@ -24,6 +24,7 @@
             $created = $repository->create($request->only([
                 'name',
                 'email',
+                'password',
             ]));
 
             return new UserResource($created);
