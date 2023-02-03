@@ -1,0 +1,258 @@
+name: 'User Management'
+description: 'APIs to manage Users.'
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/users
+    metadata:
+      groupName: 'User Management'
+      groupDescription: 'APIs to manage Users.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Display a listing of users.'
+      description: 'Gets a list of users.'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      page_size:
+        name: page_size
+        description: 'Size per page. Defaults to 20.'
+        required: false
+        example: 20
+        type: integer
+        custom: []
+      page:
+        name: page
+        description: 'Page to view.'
+        required: false
+        example: 1
+        type: integer
+        custom: []
+    cleanQueryParameters:
+      page_size: 20
+      page: 1
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":[{"id":9,"name":"Kathryne Yundt","email":"mose82@example.net","created_at":"2023-02-03T11:20:23.000000Z","updated_at":"2023-02-03T11:20:23.000000Z"},{"id":10,"name":"Madie Lang","email":"krajcik.logan@example.com","created_at":"2023-02-03T11:20:23.000000Z","updated_at":"2023-02-03T11:20:23.000000Z"}]}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/users/{id}'
+    metadata:
+      groupName: 'User Management'
+      groupDescription: 'APIs to manage Users.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Display the specified user.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'User ID'
+        required: true
+        example: 9
+        type: integer
+        custom: []
+    cleanUrlParameters:
+      id: 9
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":{"id":11,"name":"Jarrell Runolfsdottir Sr.","email":"lera.flatley@example.org","created_at":"2023-02-03T11:20:23.000000Z","updated_at":"2023-02-03T11:20:23.000000Z"}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/users
+    metadata:
+      groupName: 'User Management'
+      groupDescription: 'APIs to manage Users.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Store a newly created resource in storage.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'Name of the user.'
+        required: true
+        example: 'John Doe'
+        type: string
+        custom: []
+      email:
+        name: email
+        description: 'Email of the user.'
+        required: true
+        example: doe@doe.com
+        type: string
+        custom: []
+    cleanBodyParameters:
+      name: 'John Doe'
+      email: doe@doe.com
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":{"id":12,"name":"Miss Clemmie Stamm I","email":"jessie.herzog@example.org","created_at":"2023-02-03T11:20:23.000000Z","updated_at":"2023-02-03T11:20:23.000000Z"}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PATCH
+    uri: 'api/v1/users/{id}'
+    metadata:
+      groupName: 'User Management'
+      groupDescription: 'APIs to manage Users.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Update the specified user in storage.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the user.'
+        required: true
+        example: 1
+        type: integer
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'Name of the user.'
+        required: false
+        example: 'John Doe'
+        type: string
+        custom: []
+      email:
+        name: email
+        description: 'Email of the user.'
+        required: false
+        example: doe@doe.com
+        type: string
+        custom: []
+    cleanBodyParameters:
+      name: 'John Doe'
+      email: doe@doe.com
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":{"id":13,"name":"Nicola Weber","email":"carleton.kessler@example.org","created_at":"2023-02-03T11:20:23.000000Z","updated_at":"2023-02-03T11:20:23.000000Z"}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/users/{id}'
+    metadata:
+      groupName: 'User Management'
+      groupDescription: 'APIs to manage Users.'
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Remove the specified user from storage.'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the user.'
+        required: true
+        example: 15
+        type: integer
+        custom: []
+    cleanUrlParameters:
+      id: 15
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+          "data": "success"
+          }
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
