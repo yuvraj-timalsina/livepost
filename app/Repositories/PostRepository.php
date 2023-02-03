@@ -3,6 +3,8 @@
     namespace App\Repositories;
 
     use App\Events\Models\Post\PostCreated;
+    use App\Events\Models\Post\PostDeleted;
+    use App\Events\Models\Post\PostUpdated;
     use App\Exceptions\GeneralJsonException;
     use App\Models\Post;
     use Illuminate\Support\Facades\DB;
