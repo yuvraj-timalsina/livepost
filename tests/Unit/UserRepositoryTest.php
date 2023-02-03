@@ -22,8 +22,8 @@
 
             // 3. define the source of truth
             $payload = [
-                'name' => 'heyaa',
-                'email' => 'abc@example.com',
+                'name' => 'John Doe',
+                'email' => 'john@doe.com',
                 'password' => 'secret',
             ];
 
@@ -44,7 +44,7 @@
 
             // source of truth
             $payload = [
-                'name' => 'abc123',
+                'name' => 'John Doe',
             ];
 
             // compare
@@ -76,6 +76,6 @@
             // verify if it is deleted
             $found = User::query()->find($dummy->id);
 
-            $this->assertSame(null, $found, 'User is not deleted');
+            $this->assertNull($found, 'User is not deleted');
         }
     }
