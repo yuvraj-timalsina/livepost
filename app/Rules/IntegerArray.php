@@ -24,7 +24,7 @@
          *
          * @return bool
          */
-        public function passes($attribute, $value)
+        public function passes($attribute, $value) : bool
         {
             return collect($value)->every(fn($item) => is_int($item));
         }
@@ -34,7 +34,7 @@
          *
          * @return string
          */
-        public function message()
+        public function message() : string
         {
             return 'The :attribute must be integers!';
         }
