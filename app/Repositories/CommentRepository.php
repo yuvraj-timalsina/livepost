@@ -2,6 +2,10 @@
 
     namespace App\Repositories;
 
+    use App\Events\Models\Comment\CommentCreated;
+    use App\Events\Models\Comment\CommentDeleted;
+    use App\Events\Models\Comment\CommentUpdated;
+    use App\Exceptions\GeneralJsonException;
     use App\Models\Comment;
     use Illuminate\Support\Facades\DB;
 
@@ -16,7 +20,7 @@
                     'user_id' => data_get($attributes, 'user_id'),
                     'post_id' => data_get($attributes, 'post_id'),
                 ]);
-                
+
                 throw_if(!$created, new GeneralJsonException('Failed to create comment'));
                 event(new CommentCreated($created));
 
