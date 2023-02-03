@@ -2,6 +2,7 @@
 
     namespace App\Http\Controllers;
 
+    use App\Http\Requests\PostStoreRequest;
     use App\Http\Resources\PostResource;
     use App\Models\Post;
     use App\Repositories\PostRepository;
@@ -18,7 +19,7 @@
             return PostResource::collection($posts);
         }
 
-        public function store(Request $request, PostRepository $repository)
+        public function store(PostStoreRequest $request, PostRepository $repository)
         {
             $created = $repository->create($request->only([
                 'title',
