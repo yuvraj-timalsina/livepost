@@ -34,8 +34,17 @@
         public function messages() : array
         {
             return [
-                'title.string' => 'Hmm, the title must be a string!',
-                'body.required' => 'Hey, you forgot the body!',
+                'title.string' => 'Hmm, the :attribute must be a string!',
+                'body.required' => 'Hey, you forgot the :attribute!',
+            ];
+        }
+
+        public function attributes() : array
+        {
+            return [
+                'title' => 'Post Title',
+                'body' => 'Post Body',
+                'user_ids' => 'User IDs',
             ];
         }
     }

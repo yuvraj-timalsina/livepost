@@ -21,11 +21,7 @@
 
         public function store(PostStoreRequest $request, PostRepository $repository)
         {
-            $created = $repository->create($request->only([
-                'title',
-                'body',
-                'user_ids'
-            ]));
+            $created = $repository->create($request->validate());
 
             return new PostResource($created);
         }
