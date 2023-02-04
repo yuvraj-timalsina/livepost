@@ -17,6 +17,12 @@
 
     Route::view('/', 'welcome');
 
+    Route::get('/reset-password/{token}', static function ($token) {
+        return view('auth.reset-password', ['token' => $token]);
+    })
+        ->middleware(['guest:' . config('fortify.guard')])
+        ->name('password.reset');
+
     if (app()->environment('local')) {
         Route::get('/mail', static function () {
             return (new WelcomeMail(User::factory()->make()))->render();
