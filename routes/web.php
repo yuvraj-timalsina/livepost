@@ -18,7 +18,7 @@
     Route::view('/', 'welcome');
 
     Route::get('/reset-password/{token}', static function ($token) {
-        return view('auth.reset-password', ['token' => $token]);
+        return view('auth.password-reset', ['token' => $token]);
     })
         ->middleware(['guest:' . config('fortify.guard')])
         ->name('password.reset');
