@@ -1,6 +1,6 @@
 <?php
 
-    namespace Tests\Feature\Api\V1\Comment;
+    namespace Tests\Feature;
 
     use App\Events\Models\Comment\CommentCreated;
     use App\Events\Models\Comment\CommentDeleted;
@@ -38,7 +38,7 @@
             $response->assertStatus(200);
             // verify records
             $data = $response->json('data');
-            collect($data)->each(fn($comment) => $this->assertTrue(in_array($comment['id'], $commentIds->toArray())));
+            collect($data)->each(fn($comment) => $this->assertContains($comment['id'], $commentIds->toArray()));
         }
 
         public function test_show() : void

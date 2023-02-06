@@ -1,6 +1,6 @@
 <?php
 
-    namespace Tests\Feature\Api\V1\Post;
+    namespace Tests\Feature;
 
     use App\Events\Models\Post\PostCreated;
     use App\Events\Models\Post\PostDeleted;
@@ -38,7 +38,7 @@
             $response->assertStatus(200);
             // verify records
             $data = $response->json('data');
-            collect($data)->each(fn($post) => $this->assertTrue(in_array($post['id'], $postIds->toArray())));
+            collect($data)->each(fn($post) => $this->assertContains($post['id'], $postIds->toArray()));
         }
 
         public function test_show() : void
@@ -58,7 +58,7 @@
 
             $dummyUser = User::factory()->create();
 
-            $response = $this->json('post', $this->uri, array_merge($dummy->toArray(), ['user_ids' => [$dummyUser->id]]));
+            $response = $this->json('POST', $this->uri, array_merge($dummy->toArray(), ['user_ids' => [$dummyUser->id]]));
 
             $result = $response->assertStatus(201)->json('data');
             Event::assertDispatched(PostCreated::class);
@@ -77,7 +77,7 @@
             $fillables = collect((new Post())->getFillable());
 
             $fillables->each(function ($toUpdate) use ($dummy, $dummy2) {
-                $response = $this->json('patch', $this->uri . '/' . $dummy->id, [
+                $response = $this->json('PATCH', $this->uri . '/' . $dummy->id, [
                     $toUpdate => data_get($dummy2, $toUpdate),
                 ]);
 

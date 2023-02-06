@@ -9,6 +9,7 @@
     use App\Http\Middleware\TrimStrings;
     use App\Http\Middleware\TrustProxies;
     use App\Http\Middleware\ValidateSignature;
+    use App\Http\Middleware\VerifyCsrfToken;
     use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
     use Illuminate\Auth\Middleware\Authorize;
     use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
@@ -24,6 +25,7 @@
     use Illuminate\Session\Middleware\AuthenticateSession;
     use Illuminate\Session\Middleware\StartSession;
     use Illuminate\View\Middleware\ShareErrorsFromSession;
+    use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
     class Kernel extends HttpKernel
     {
@@ -53,14 +55,15 @@
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
                 ShareErrorsFromSession::class,
-//            \App\Http\Middleware\VerifyCsrfToken::class,
+                VerifyCsrfToken::class,
                 SubstituteBindings::class,
             ],
 
             'api' => [
-                // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+                EnsureFrontendRequestsAreStateful::class,
                 'throttle:api',
                 SubstituteBindings::class,
+                'verified'
             ],
         ];
         /**

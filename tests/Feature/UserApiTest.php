@@ -1,6 +1,6 @@
 <?php
 
-    namespace Tests\Feature\Api\V1\User;
+    namespace Tests\Feature;
 
     use App\Events\Models\User\UserCreated;
     use App\Events\Models\User\UserDeleted;
@@ -37,7 +37,7 @@
             $response->assertStatus(200);
             // verify records
             $data = $response->json('data');
-            collect($data)->each(fn($user) => $this->assertTrue(in_array($user['id'], $userIds->toArray())));
+            collect($data)->each(fn($user) => $this->assertContains($user['id'], $userIds->toArray()));
         }
 
         public function test_show() : void
@@ -55,7 +55,7 @@
             Event::fake();
             $dummy = User::factory()->make();
 
-            $response = $this->json('post', $this->uri, $dummy->toArray());
+            $response = $this->json('POST', $this->uri, $dummy->toArray());
 
             $result = $response->assertStatus(201)->json('data');
             Event::assertDispatched(UserCreated::class);
