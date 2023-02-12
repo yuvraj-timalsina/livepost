@@ -1,6 +1,7 @@
 <?php
 
     use App\Mail\WelcomeMail;
+    use App\Models\Post;
     use App\Models\User;
     use Illuminate\Support\Facades\Route;
 
@@ -22,6 +23,10 @@
     })
         ->middleware(['guest:' . config('fortify.guard')])
         ->name('password.reset');
+
+    Route::get('shared/post/{post}', function (\Illuminate\Http\Request $request, Post $post) {
+        return 'Specially made just for you! Post Title : {{ $post->title }}';
+    })->name('shared.post')->middleware('signed');
 
     if (app()->environment('local')) {
         Route::get('/mail', static function () {

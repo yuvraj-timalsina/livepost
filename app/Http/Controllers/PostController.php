@@ -9,6 +9,7 @@
     use Illuminate\Http\JsonResponse;
     use Illuminate\Http\Request;
     use Illuminate\Http\Resources\Json\ResourceCollection;
+    use Illuminate\Support\Facades\URL;
 
     /**
      * @group Post Management
@@ -114,6 +115,29 @@
 
             return new JsonResponse([
                 'data' => 'success'
+            ]);
+        }
+
+        /**
+         * Share the specified post.
+         *
+         * @response 200 {
+         * "data": "signed url"
+         * }
+         *
+         * @param \Illuminate\Http\Request $request
+         * @param \App\Models\Post $post
+         *
+         * @return \Illuminate\Http\JsonResponse
+         */
+        public function share(Request $request, Post $post)
+        {
+            $url = URL::temporarySignedRoute('posts.share', now()->addDays(30), [
+                'post' => $post->id,
+            ]);
+
+            return new JsonResponse([
+                'data' => $url
             ]);
         }
     }
