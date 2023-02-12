@@ -11,7 +11,13 @@
 
     class UpdatePostSocketHandler extends BaseSocketHandler implements MessageComponentInterface
     {
-        function onMessage(ConnectionInterface $from, MessageInterface $msg)
+        /**
+         * @param \Ratchet\ConnectionInterface $from
+         * @param \Ratchet\RFC6455\Messaging\MessageInterface $msg
+         *
+         * @return void
+         */
+        function onMessage(ConnectionInterface $from, MessageInterface $msg) : void
         {
             $body = collect(json_decode($msg->getPayload(), true));
 

@@ -171,7 +171,6 @@ document.getElementById('form-login').addEventListener('submit', function (event
 
 updatePost();
 
-
 function updatePost() {
     const socket = new WebSocket(`ws://${window.location.hostname}:6001/socket/update-post?appKey=${process.env.MIX_PUSHER_APP_KEY}`);
 

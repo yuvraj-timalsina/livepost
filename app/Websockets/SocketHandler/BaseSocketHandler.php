@@ -10,6 +10,12 @@
 
     abstract class BaseSocketHandler implements MessageComponentInterface
     {
+        /**
+         * @param \Ratchet\ConnectionInterface $conn
+         *
+         * @return void
+         * @throws \Exception
+         */
         function onOpen(ConnectionInterface $conn)
         {
             dump('on opened');
@@ -19,6 +25,12 @@
             $this->verifyAppKey($conn)->generateSocketId($conn);
         }
 
+        /**
+         * @param \Ratchet\ConnectionInterface $connection
+         *
+         * @return $this
+         * @throws \Exception
+         */
         protected function generateSocketId(ConnectionInterface $connection)
         {
             $socketId = sprintf('%d.%d', random_int(1, 1000000000), random_int(1, 1000000000));
@@ -28,6 +40,11 @@
             return $this;
         }
 
+        /**
+         * @param \Ratchet\ConnectionInterface $connection
+         *
+         * @return $this
+         */
         protected function verifyAppKey(ConnectionInterface $connection)
         {
             $appKey = QueryParameters::create($connection->httpRequest)->get('appKey');
@@ -41,11 +58,22 @@
             return $this;
         }
 
+        /**
+         * @param \Ratchet\ConnectionInterface $conn
+         *
+         * @return void
+         */
         function onClose(ConnectionInterface $conn)
         {
             dump('closed');
         }
 
+        /**
+         * @param \Ratchet\ConnectionInterface $conn
+         * @param \Exception $e
+         *
+         * @return void
+         */
         function onError(ConnectionInterface $conn, \Exception $e)
         {
             dump($e);
