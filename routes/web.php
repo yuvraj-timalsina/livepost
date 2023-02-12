@@ -1,6 +1,6 @@
 <?php
 
-    use App\Events\PlayGroundEvent;
+    use App\Events\ChatMessageEvent;
     use App\Mail\WelcomeMail;
     use App\Models\Post;
     use App\Models\User;
@@ -35,8 +35,16 @@
         });
     }
 
-    Route::get('/playground', static function () {
-        event(new PlayGroundEvent());
+    Route::get('/chat-message', static function () {
+        event(new ChatMessageEvent());
+
+        return null;
+    });
+
+    Route::view('/ws', 'websocket');
+
+    Route::post('/chat-message', static function (\Illuminate\Http\Request $request) {
+        event(new ChatMessageEvent($request->message, auth()->user()));
 
         return null;
     });
