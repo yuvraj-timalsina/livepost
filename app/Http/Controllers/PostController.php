@@ -5,10 +5,13 @@
     use App\Http\Requests\PostStoreRequest;
     use App\Http\Resources\PostResource;
     use App\Models\Post;
+    use App\Models\User;
+    use App\Notifications\PostSharedNotification;
     use App\Repositories\PostRepository;
     use Illuminate\Http\JsonResponse;
     use Illuminate\Http\Request;
     use Illuminate\Http\Resources\Json\ResourceCollection;
+    use Illuminate\Support\Facades\Notification;
     use Illuminate\Support\Facades\URL;
 
     /**
@@ -130,11 +133,14 @@
          *
          * @return \Illuminate\Http\JsonResponse
          */
-        public function share(Request $request, Post $post)
+        public function share(Request $request, Post $post) : JsonResponse
         {
             $url = URL::temporarySignedRoute('posts.share', now()->addDays(30), [
                 'post' => $post->id,
             ]);
+
+            $users = User::query()->whereIn('id', $request->user_ids)->get();
+            Notification::send($users, new PostSharedNotification($post, $url));
 
             return new JsonResponse([
                 'data' => $url
