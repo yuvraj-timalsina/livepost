@@ -1,5 +1,6 @@
 <?php
 
+    use App\Events\PlayGroundEvent;
     use App\Mail\WelcomeMail;
     use App\Models\Post;
     use App\Models\User;
@@ -33,3 +34,9 @@
             return (new WelcomeMail(User::factory()->make()))->render();
         });
     }
+
+    Route::get('/playground', static function () {
+        event(new PlayGroundEvent());
+
+        return null;
+    });
